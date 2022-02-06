@@ -1,0 +1,121 @@
+{% extends "partial/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+<table class="table">
+
+<thead>
+<tr>
+  <th>Топ 5 авторов за все время по кол-ву созданных постов</th>
+      </tr>
+  </thead>
+  <tbody>
+    {% for i in data %}
+      <tr scope = "row">
+        <th>{{i.author}}</th>
+        
+        <th>{{i.total}}</th>
+        
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<table class="table">
+
+<thead>
+<tr>
+  <th>Топ 5 авторов по кол-ву созданных постов по годам</th>
+      {% comment %} {% for data in top_by_years %}
+      <th>{{data.date__year}}</th>
+      {% endfor %}  {% endcomment %}
+      </tr>
+  </thead>
+  
+    <form action = "" method = "get">
+    <label for="chose_year">Choose year</label>
+    <select id="years" name="years">
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+  </select>
+  <input type="submit" value="Go">
+</form>
+  
+  <tbody>
+    {% for i in top_by_years %}
+      <tr scope = "row">
+        <th>{{i.author}}</th>
+        <th>{{i.total}}</th>
+        {% comment %} {% for d in i.top_by_years %}
+          <th>{{d.total}}</th>
+        {% endfor %} {% endcomment %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+<table class="table">
+
+<thead>
+<tr>
+  <th>Среднее кол-во слов в тексте по годам</th>
+      {% comment %} {% for data in top_by_years %}
+      <th>{{data.date__year}}</th>
+      {% endfor %}  {% endcomment %}
+      </tr>
+  </thead>
+  
+  <tbody>
+    {% for i in avg %}
+      <tr scope = "row">
+        <th>{{i.date__year}}</th>
+        <th>{{i.word_count__avg}}</th>
+        
+        {% comment %} {% for d in i.top_by_years %}
+          <th>{{d.total}}</th>
+        {% endfor %} {% endcomment %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+</div>
+
+
+
+{% comment %} <div class='col-8'>
+  <canvas id="myChart" width="400" height="200"></canvas>
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [{% for data in data %} '{{data.date__year}}', {% endfor %}],
+        datasets: [{
+            label: '# Кол-во стат',
+            data: [{% for data in data %} '{{data.total}}', {% endfor %}],
+            
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
+</div> {% endcomment %}
+
+{% endblock content %}
