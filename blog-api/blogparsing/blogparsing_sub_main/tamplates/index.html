@@ -7,57 +7,45 @@
 
 <div class="container">
 <table class="table">
+<form action = "" method = "get">
+    <label for="chose_year" style="margin-right:20px;" >Выберите год фильтрации</label>
+    <select id="years" name="years", style="width:200px; margin-bottom: 20px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);line-height: 18px;
+    border-radius: 10px; padding: 14px 15px;
+    font-size: 28px;">
+    <option value="all"> all</option>
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+    <option value="2017">2017</option>
+    <option value="2016">2016</option>
+    <option value="2015">2015</option>
+    <option value="2014">2014</option>
+    <option value="2013">2013</option>
+    <option value="2012">2012</option>
+    <option value="2011">2011</option>
+  </select>
+  <input style="margin-left:20px; border-radius: 10px; padding: 14px 15px;
+    font-size: 28px;" type="submit" value="Go">  
+</form>
 
 <thead>
 <tr>
-  <th>Топ 5 авторов за все время по кол-ву созданных постов</th>
+  <th>Топ 5 авторов по кол-ву созданных постов  {{data.date__year}} </th>
       </tr>
   </thead>
   <tbody>
     {% for i in data %}
       <tr scope = "row">
         <th>{{i.author}}</th>
-        
+          
         <th>{{i.total}}</th>
         
       </tr>
     {% endfor %}
   </tbody>
-</table>
-
-<table class="table">
-
-<thead>
-<tr>
-  <th>Топ 5 авторов по кол-ву созданных постов по годам</th>
-      {% comment %} {% for data in top_by_years %}
-      <th>{{data.date__year}}</th>
-      {% endfor %}  {% endcomment %}
-      </tr>
-  </thead>
   
-    <form action = "" method = "get">
-    <label for="chose_year">Choose year</label>
-    <select id="years" name="years">
-    <option value="2022">2022</option>
-    <option value="2021">2021</option>
-    <option value="2020">2020</option>
-    <option value="2019">2019</option>
-  </select>
-  <input type="submit" value="Go">
-</form>
-  
-  <tbody>
-    {% for i in top_by_years %}
-      <tr scope = "row">
-        <th>{{i.author}}</th>
-        <th>{{i.total}}</th>
-        {% comment %} {% for d in i.top_by_years %}
-          <th>{{d.total}}</th>
-        {% endfor %} {% endcomment %}
-      </tr>
-    {% endfor %}
-  </tbody>
 </table>
 
 
@@ -88,9 +76,6 @@
 
 
 </div>
-
-
-
 {% comment %} <div class='col-8'>
   <canvas id="myChart" width="400" height="200"></canvas>
 <script>
@@ -98,10 +83,10 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: [{% for data in data %} '{{data.date__year}}', {% endfor %}],
+        labels: [{% for data in top_by_years %} '{{data.author}}', {% endfor %}],
         datasets: [{
-            label: '# Кол-во стат',
-            data: [{% for data in data %} '{{data.total}}', {% endfor %}],
+            label: '# Кол-во написанных статей:',
+            data: [{% for data in top_by_years %} '{{data.total}}', {% endfor %}],
             
             borderWidth: 1
         }]
@@ -116,6 +101,6 @@ const myChart = new Chart(ctx, {
 });
 </script>
 
-</div> {% endcomment %}
+</div>  {% endcomment %}
 
 {% endblock content %}
