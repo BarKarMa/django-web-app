@@ -9,7 +9,7 @@ verify_ssl = true
 bs4 = "*"
 requests = "*"
 nltk = "*"
-lxml = "*"
+lxml = "==4.7.1"
 
 [requires]
 python_version = "3.9"
