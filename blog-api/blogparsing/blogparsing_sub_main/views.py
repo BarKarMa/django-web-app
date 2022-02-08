@@ -1,12 +1,5 @@
 
 from django.shortcuts import render
-from django.db.models import Count
-from blogparsing_sub_main.models import BlogNews
-from django.db.models import Avg
-from django.db.models import Func, IntegerField
-from .models import Round
-
-from collections import Counter
 from .dashboard_logic.all_years_top_5 import Filtering
 
 

@@ -1,5 +1,5 @@
 from blogparsing_sub_main.models import BlogNews
-import urllib.parse
+
 from collections import namedtuple
 from collections import Counter
 
@@ -53,13 +53,14 @@ class BlogParser:
         else:
             url = None 
         return href
-        
-    
-
-    def parse_all(self):
+    count = 0
+    def parse_all(self, count):
+        count=count+1
+        print(count)
         # Выбрать какое-нибудь задание
         links = self.get_links_of_archive()
         for item in links:
+            
             url = self.parse_link(item=item)
 
             page_text = self.get_page(link=url)
@@ -72,24 +73,24 @@ class BlogParser:
                 
             for item in soup.find_all("h3", {"class": "post-title entry-title"}):
                 title = item.text
-
+            # получения значений текста статей
             for item in soup.find_all("div", {"class": "post-body entry-content"}):
+                # текст статьи
                 text_body = item.text 
-                            
+
+                # добавление в стандарнтые стоп слова и пунктуацию новых исходя из текстов статей             
                 stoplist = stopwords.words('english') # Bring in the default English NLTK stop words
                 stoplist.extend([",", "@", ".", "!", "–", '(', ')', "’", ":", "|", "–", "%", "The", "*", '“', '”', '?'])
                 
                 text_tokens = word_tokenize(text_body)
 
+                # убираем стоп слова и пунктуацию
                 tokens_without_sw = [word for word in text_tokens if not word in stoplist]
                 word_count = len(tokens_without_sw)
-                print(tokens_without_sw)
-
 
                 top_words = [i[0] for i in Counter(" ".join(tokens_without_sw).split()).most_common(10)]
                 converted = ' '.join([str(elem) for elem in top_words])
-               
-                print(top_words)
+
 
             for item in soup.find_all("span", {"class": "fn"}):
                 author = item.text
