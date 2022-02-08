@@ -1,5 +1,12 @@
 # django Dashboard and parsing blog.python.org
 
+<img
+src=“images/img_0001.jpg”
+raw=true
+alt=“Subject Pronouns”
+style=“margin-right: 10px;”
+/>
+
 ### Initialize and activate the virtual environment
 
 #### For the application to work, you must have Django version at least 3.2.12
