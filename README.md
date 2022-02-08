@@ -1,11 +1,8 @@
 # django Dashboard and parsing blog.python.org
 
-<img
-src=“images/img_0001.jpg”
-raw=true
-alt=“Subject Pronouns”
-style=“margin-right: 10px;”
-/>
+<p align="center">
+   <img src="images/img_0001.jpg" alt="[YOUR_ALT]"/>
+</p>
 
 ### Initialize and activate the virtual environment
 
