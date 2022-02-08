@@ -1,6 +1,6 @@
 
 from django.shortcuts import render
-from .dashboard_logic.all_years_top_5 import Filtering
+from .dashboard_logic.all_years_from_db import Filtering
 
 
 # Create index function to display the HTML file into the browser
