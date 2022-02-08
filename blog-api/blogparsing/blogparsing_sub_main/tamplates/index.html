@@ -1,18 +1,19 @@
 {% extends "partial/base.html" %}
 
+
 {% block title %} Dashboard {% endblock %}
 
 
 {% block content %}
-
-<div class="container">
+<div class="container" style='text-align: center; margin-top: 20px;'>
 <table class="table">
-<form action = "" method = "get">
-    <label for="chose_year" style="margin-right:20px;" >Выберите год фильтрации</label>
-    <select id="years" name="years", style="width:200px; margin-bottom: 20px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);line-height: 18px;
+<form action = "" method = "get" >
+    
+    <select id="years" name="years", style="width:200px; margin-bottom: 
+    20px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);line-height: 18px;
     border-radius: 10px; padding: 14px 15px;
-    font-size: 28px;">
-    <option value="all"> all</option>
+    font-size: 28px;", onchange="displayDivDemo('hideValuesOnSelect', this)">
+    <option value="all years"> all years</option>
     <option value="2022">2022</option>
     <option value="2021">2021</option>
     <option value="2020">2020</option>
@@ -29,65 +30,50 @@
   <input style="margin-left:20px; border-radius: 10px; padding: 14px 15px;
     font-size: 28px;" type="submit" value="Go">  
 </form>
+<p style='text-align: center; font-size: 38px;'><span> {{choosen_year}} </span> </p>
+</div>
 
-<thead>
-<tr>
-  <th>Топ 5 авторов по кол-ву созданных постов  {{data.date__year}} </th>
-      </tr>
-  </thead>
-  <tbody>
-    {% for i in data %}
-      <tr scope = "row">
-        <th>{{i.author}}</th>
-          
-        <th>{{i.total}}</th>
-        
-      </tr>
-    {% endfor %}
-  </tbody>
+<p><span style='text-align: center'> Среднее кол-во слов за все время: {{all_times_avg.final}}</span></p>
+<div class="container" style="position:relative;">
+
+
+<div class='chartBox' style="position: relative">
+  <canvas id="firstChart" width="300px" height="100" text-align="justify"></canvas>
   
-</table>
-
-
-<table class="table">
-
-<thead>
-<tr>
-  <th>Среднее кол-во слов в тексте по годам</th>
-      {% comment %} {% for data in top_by_years %}
-      <th>{{data.date__year}}</th>
-      {% endfor %}  {% endcomment %}
-      </tr>
-  </thead>
-  
-  <tbody>
-    {% for i in avg %}
-      <tr scope = "row">
-        <th>{{i.date__year}}</th>
-        <th>{{i.word_count__avg}}</th>
-        
-        {% comment %} {% for d in i.top_by_years %}
-          <th>{{d.total}}</th>
-        {% endfor %} {% endcomment %}
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+  <canvas id="secondChart" width="300px" height="100"text-align="justify"></canvas>
 
 </div>
-{% comment %} <div class='col-8'>
-  <canvas id="myChart" width="400" height="200"></canvas>
+
+  
+</div>
 <script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
+
+const myChart1 = new Chart(document.getElementById('firstChart').getContext('2d'), {
     type: 'bar',
     data: {
-        labels: [{% for data in top_by_years %} '{{data.author}}', {% endfor %}],
+        labels: [{% for data in data %} '{{data.author}}', {% endfor %}],
         datasets: [{
             label: '# Кол-во написанных статей:',
-            data: [{% for data in top_by_years %} '{{data.total}}', {% endfor %}],
-            
+            data: [{% for data in data %} '{{data.total}}', {% endfor %}],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+const secondChart = new Chart(document.getElementById('secondChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: [{% for data in avg %} '{{data.date__year}}', {% endfor %}],
+        datasets: [{
+            label: '# Среднее кол-во слов в тексте по годам: ',
+            data: [{% for data in avg %} '{{data.word_count__avg}}', {% endfor %}],
             borderWidth: 1
         }]
     },
@@ -101,6 +87,24 @@ const myChart = new Chart(ctx, {
 });
 </script>
 
-</div>  {% endcomment %}
+
+<div class="container">
+<table class="table">
+
+<thead>
+<tr>
+  <th>Топ 10 популярных слов</th>
+      </tr>
+  </thead>
+  
+  <tbody>    
+    {% for i in top_words %}
+      <tr scope = "row">
+        <th>{{i}}</th>
+        
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>  
 
 {% endblock content %}

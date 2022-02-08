@@ -1,0 +1,32 @@
+{% extends "partial/base.html" %}
+
+{% block table %}
+
+<div class='col-8'>
+  <canvas id="myChart1" width="400" height="200"></canvas>
+<script>
+const ctx = document.getElementById('myChart1').getContext('2d');
+const myChart1 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [{% for data in data %} '{{data.author}}', {% endfor %}],
+        datasets: [{
+            label: '# Кол-во написанных статей:',
+            data: [{% for data in data %} '{{data.total}}', {% endfor %}],
+            
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+</div>
+
+
+{% endblock table %}

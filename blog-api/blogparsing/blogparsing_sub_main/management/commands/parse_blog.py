@@ -1,11 +1,7 @@
-from time import process_time_ns, strftime
 from blogparsing_sub_main.models import BlogNews
-import datetime
-from datetime import datetime
-from msilib.schema import Error
-from turtle import title
 import urllib.parse
 from collections import namedtuple
+from collections import Counter
 
 import bs4
 import requests
@@ -14,15 +10,14 @@ from django.core.management.base import BaseCommand
 
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-# from django.core.management.base import CommandError
 
 
 
-InnerBlock = namedtuple('block', 'title,date,text,author,word_count')
+InnerBlock = namedtuple('block', 'title,date,text,author,word_count,top_words')
 
 class Block(InnerBlock):
     def __str__(self):
-        return f'{self.title}\t{self.date}\t{self.text}\t{self.author}\t{self.word_count}'
+        return f'{self.title}\t{self.date}\t{self.text}\t{self.author}\t{self.word_count}\t{self.top_words}'
 
 
 
@@ -33,13 +28,9 @@ class BlogParser:
 
 
     def get_page(self, link):
-        params = {
-        }  
-
         r = self.session.get(link)
         r.raise_for_status()
         print(r)
-        
         return r.text
 
     def get_links_of_archive(self):
@@ -49,27 +40,18 @@ class BlogParser:
         soup = bs4.BeautifulSoup(text, 'lxml')
 
         container = soup.find_all("a", {"class":"post-count-link"})
-        # print(container)
         return container
-
 
     def parse_link(self, item):
         # Выбрать блок со ссылкой
         url_block = item
         
-        # if not url_block:
-        #     raise CommandError('bad "url_block" a')
-
         href = url_block.get('href')
         
         if href:
             url = 'https://pythoninsider.blogspot.com' + href
-            print(1)
-            
         else:
-            url = None
-            print(0)
-        
+            url = None 
         return href
         
     
@@ -92,23 +74,23 @@ class BlogParser:
                 title = item.text
 
             for item in soup.find_all("div", {"class": "post-body entry-content"}):
-                text_body = item.text
-
-                # 
+                text_body = item.text 
                             
                 stoplist = stopwords.words('english') # Bring in the default English NLTK stop words
-                stoplist.extend([",", "@", ".", "!" "–", '(', ')', "’", ":", "|", "–", "%"])
+                stoplist.extend([",", "@", ".", "!", "–", '(', ')', "’", ":", "|", "–", "%", "The", "*", '“', '”', '?'])
                 
                 text_tokens = word_tokenize(text_body)
 
                 tokens_without_sw = [word for word in text_tokens if not word in stoplist]
                 word_count = len(tokens_without_sw)
-                
-                print(word_count)
+                print(tokens_without_sw)
 
-                # 
 
-            
+                top_words = [i[0] for i in Counter(" ".join(tokens_without_sw).split()).most_common(10)]
+                converted = ' '.join([str(elem) for elem in top_words])
+               
+                print(top_words)
+
             for item in soup.find_all("span", {"class": "fn"}):
                 author = item.text
 
@@ -118,7 +100,8 @@ class BlogParser:
                 date = date,
                 author = author,
                 text = text_body,
-                word_count = word_count
+                word_count = word_count,
+                top_words = converted,
             ).save()
             print(f'News {p}')
 
@@ -128,30 +111,8 @@ class BlogParser:
                 author = author,
                 text = text_body,
                 word_count = word_count,
+                top_words = converted,
             )      
-                
-            
-        
-        # soup = bs4.BeautifulSoup(pagetext, 'lxml')
-
-        # container = soup.find_all("div", {"class":"blog-posts hfeed"})
-
-        
-        
-
-        # print(self.parse_link(self.get_links_of_archive()))
-
-        # if not container:
-        #     return 1
-        # last_button = container[-1]
-        # href = last_button.get('href')
-        # if not href:
-        #     return 1
-
-        # r = urllib.parse.urlparse(href)
-        # params = urllib.parse.parse_qs(r.query)
-        # return min(int(params['p'][0]), self.PAGE_LIMIT)
-        
 
 # def main():
 #     p = BlogParser()

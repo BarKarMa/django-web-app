@@ -12,7 +12,8 @@ class NewsForm(forms.ModelForm):
             'date',
             'author',
             'text',
-            'word_count'
+            'word_count',
+            'top_words',
         )
         widgets = {
             'title': forms.TextInput,
@@ -20,9 +21,10 @@ class NewsForm(forms.ModelForm):
             'author': forms.TextInput,
             'text': forms.TextInput,
             'word_count': forms.IntegerField,
+            'top_words': forms.TextInput,
 
         }
 
 
 class YearChoosen(forms.ModelForm):
-    years = forms.Select(choices=['2020', '2021','2019','2018'])
+    years = forms.Select(choices=[])
