@@ -53,14 +53,13 @@ class BlogParser:
         else:
             url = None 
         return href
-    count = 0
-    def parse_all(self, count):
-        count=count+1
-        print(count)
+    def parse_all(self):
+        count = 0
         # Выбрать какое-нибудь задание
         links = self.get_links_of_archive()
         for item in links:
-            
+            count=count+1
+            print(count)
             url = self.parse_link(item=item)
 
             page_text = self.get_page(link=url)
@@ -68,7 +67,6 @@ class BlogParser:
             soup = bs4.BeautifulSoup(page_text, 'lxml')
 
             for item in soup.find_all("abbr", {"class": "published"}):
-                print(item.get("title"))
                 date = (item.get("title")[:10])
                 
             for item in soup.find_all("h3", {"class": "post-title entry-title"}):
@@ -104,7 +102,6 @@ class BlogParser:
                 word_count = word_count,
                 top_words = converted,
             ).save()
-            print(f'News {p}')
 
         return Block(
                 title = title,

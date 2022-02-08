@@ -2,7 +2,7 @@ from blogparsing_sub_main.models import BlogNews
 from django.db.models import Count
 from collections import namedtuple
 from ..models import Round
-from django.db.models import Avg, Sum
+from django.db.models import Avg
 from django.db.models import IntegerField
 from collections import Counter
 

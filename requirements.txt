@@ -3,6 +3,7 @@ bs4==0.0.1
 certifi==2021.10.8
 charset-normalizer==2.0.11; python_version >= '3'
 click==8.0.3; python_version >= '3.6'
+django>=3.2.12
 colorama==0.4.4; platform_system == 'Windows' and platform_system == 'Windows'
 idna==3.3; python_version >= '3'
 importlib-metadata==4.10.1; python_version < '3.8'
