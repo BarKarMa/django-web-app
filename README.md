@@ -1,12 +1,15 @@
-# django админка для данных собранных на blog.python.org
+# django Dashboard and parsing blog.python.org
 
-Для работы приложения нужно установить вирутальное окружение и должен быть Django версии не менее 3.2.12
+### Initialize and activate the virtual environment
 
-### 1. ініціалізувати та активувати віртуальне середовище
+#### For the application to work, you must have Django version at least 3.2.12
 
-### 2. встановити у середовище прокету всі пакети з файлу requirements.txt у кореневій папці проекту
-### 3. перейти до папки з manager проекту 
-> cd blog-api/blogparsing
-### 4. розгорнути міграцю бази даних python manage.py migrate 
-### 4. спарсити сайт командою python manage.py parse_blog
-### 5. запустити на девелопмент сервері й зайти на головну сторінку
+### Install all packages from the requirements.txt file in the root folder of the project
+### Go to the folder with  manager.py  
+  > cd blog-api/blogparsing
+### Deploy the python 
+  > manage.py migrate database migration 
+### Parse the site with the 
+  > python manage.py parse_blog 
+### command in the console
+### Launch the development server and go to the home page
