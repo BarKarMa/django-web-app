@@ -1,7 +1,7 @@
 # django Dashboard and parsing blog.python.org
 
 <p align="center">
-   <img src="images/img_0001.jpg" alt="[YOUR_ALT]"/>
+   <img src="images/img_0001.jpg" alt="[YOUR_ALT]" style='width=100px;'/>
 </p>
 
 ### Initialize and activate the virtual environment
