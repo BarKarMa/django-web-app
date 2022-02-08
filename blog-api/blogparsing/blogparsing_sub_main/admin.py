@@ -6,5 +6,5 @@ from .models import BlogNews
 
 @admin.register(BlogNews)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'text', 'author', 'date', 'word_count', 'top_words')
+    list_display = ('title', 'text', 'author', 'date')
     form = NewsForm
